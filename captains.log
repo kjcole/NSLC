@@ -1,3 +1,17 @@
+2015.12.19 KJC
+
+  It ain't tiddly but it will do. Deal.  Git's ability ot diff between
+  two revisions could use a LOT of work.  See "man gitrevisions". Copy
+  and paste the following ghastlies, ONE at a time and study the output.
+  (Installing most and "export PAGER=/usr/bin/most" in your .bashrc
+  will help.)
+
+  $ git log --reverse    # to see history in human-readable order
+  $ git diff 642197bb6c4a573d7612901e2ea168c622676087..7f6e60404c1e24e08ae2815c62cbfe20f1ff92c9
+  $ git diff 7f6e60404c1e24e08ae2815c62cbfe20f1ff92c9..9a824d97a81423b8e364f6bdd6e23ccb8c63e865
+
+  ____________________________________________________________________________
+
 2015.12.20 KJC
 
   In an attempt to be an enabler (but not a co-dependent), rather than
@@ -7,7 +21,7 @@
   hand:  Looping through all methods of a class...
 
       $ ipython2
-    
+
       # Disclaimer: This is a horrible and frightening way to do things
 
       from __future__ import print_function
