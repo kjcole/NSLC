@@ -37,8 +37,7 @@ __appname__    = "NSLC file utililty"
 #
 # Comment lines: Lines beginning with "#" will be stripped of leading
 # and trailing spaces (as well as the "#"  and inserted wholesale onto
-# a 1250 print("hello world")  # uncomment line 7 to make your life a living
-# hell..character line.
+# a 1250 character line.
 #
 # Read a CSV file with many rows, and 110 columns.
 #     # Each row represents a student.
@@ -91,7 +90,7 @@ class drl:
 
     def hi(self):
         fm = " From Object Land..."
-        return "Hello World" + fm
+        return "Hello World {0}".format(fm)
 
     def Column_for_Excel_Format(self):
         return munge("Indexa,Length,Start,Stop,Reqd,Type,Field_Name,Count")
@@ -570,7 +569,7 @@ def dend():
     """ puts an end on file, keeps size right at 1250 bytes"""
     #
     # this is the omega
-    inlist = list("end" + "\n")
+    inlist = list("end" + "\n")  # WTF?
     #
     # change data into a list element
     outlist[1247:1250] = inlist  # place data in the list in the correct place
@@ -742,5 +741,7 @@ def go():
         outw()                     # write the line
         # of.write(outstr)
 
-print("Welcome to the " + __appname__)  # uncomment line 7 to make your life a living hell...
-print("Counting the header we are currently at line " + str(sdata.Line) + " of the spreadsheet" + spreadsheet)
+print("Welcome to the {0}".format(__appname__))
+status  = "Counting the header, we are currently at line {0}"
+status += " of the spreadsheet {1}."
+print(status.format(sdata.Line, spreadsheet))
