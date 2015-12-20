@@ -1,6 +1,6 @@
 2015.12.19 KJC
 
-  It ain't tiddly but it will do. Deal.  Git's ability ot diff between
+  It ain't tiddly but it will do. Deal.  Git's ability to diff between
   two revisions could use a LOT of work.  See "man gitrevisions". Copy
   and paste the following ghastlies, ONE at a time and study the output.
   (Installing most and "export PAGER=/usr/bin/most" in your .bashrc
