@@ -1,0 +1,71 @@
+2015.12.20 KJC
+
+  In an attempt to be an enabler (but not a co-dependent), rather than
+  a Frank Sinatra fix ("I did it Myyyyyyy Waaaaaayyyy") I've made what
+  I consider to be minor changes to the code, that I hope will not be
+  too arduous to adapt to. Now... to answer the immediate question at
+  hand:  Looping through all methods of a class...
+
+      $ ipython2
+    
+      # Disclaimer: This is a horrible and frightening way to do things
+
+      from __future__ import print_function
+      from nslcutil import *
+      help(sdata)
+      dir(sdata)
+      attributes = dir(sdata)  # ALL attributes
+
+      # Extract the methods, only (not all attributes)
+      #
+      # NOTE: "methods" and "attribute" below are just
+      #       variable names and have NOTHING to do
+      #       with the preceding lines
+      #
+      methods = [attribute for attribute in dir(sdata)
+                 if not attribute.startswith("__") and
+                 callable(getattr(sdata,attribute))]
+
+      # This will print the method name, followed by
+      # the output from calling said method.
+      #
+      for method in methods:
+          print("\n{0}:".format(method))
+          print(eval("sdata.{0}()".format(method)))
+
+  Explanation: help() is your friend. Use it a LOT to get info
+  about methods, objects, modules, data types, whatnot.
+
+  dir() lists whatever's inside of the object fed to it. Sadly, these
+  are strings. It list ALL attributes, including built-in stuff and
+  things that are not methods.
+
+  However, using a "list comprehension" we can filter out both built-
+  in attributes, whose names all start with "__", and attributes which
+  are not callable -- i.e. not methods.  But they are still,
+  unfortunately strings.
+
+  The last section above... I once again urge you to study modern
+  string formatting techniques. "\n" you know. "{0}" is "put the first
+  argument here". ("{1}" would be "put the second argument here".) So,
+  print("\n{0}:".format(method)) is "Print a newline followed by the
+  name of the method, followed by a colon".)
+
+  And now, the piece de resistance,
+
+      print(eval("sdata.{0}()".format(method)))
+
+  Take a string which contains a method name, and format it into
+  the string "sdata.{0}()".  So, for example if the string is "hi",
+  the result of
+
+     "sdata.{0}()".format("hi")
+  is
+     "sdata.hi()"
+
+  Now, take that and evaluate it -- eval("sdata.hi()"). In other words,
+  interpret the string as source code. The method sdata.hi() returns
+  something, but it doesn't print the returned value. So, just as in
+  your code, you must surround the call with a print.
+  ____________________________________________________________________________
+
