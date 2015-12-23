@@ -83,3 +83,9 @@
   your code, you must surround the call with a print.
   ____________________________________________________________________________
 
+2015.12.22 KJC
+
+  Based on the information provided, what does a field need to know about
+  itself?  I would probably make every field an object, not a method, and
+  it would look something like this tester.py
+  ____________________________________________________________________________
