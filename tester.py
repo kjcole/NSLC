@@ -32,7 +32,7 @@ __module__     = ""
 #        return munge("Indexa,Length,Start,Stop,Reqd,Type,Field_Name,Count")
 
 
-class Typo(Exception):
+class TypoError(Exception):
     def __init__(self, value, source):
         self.value = value
         self.source = source
@@ -42,28 +42,44 @@ class Typo(Exception):
         message += "  (Not 'N', 'A' or 'AN')"
         return message.format(self.value, self.source)
 
+
+class SizeError(Exception):
+    def __init__(self, stop, start, length, source):
+        self.stop   = stop
+        self.start  = start
+        self.length = length
+        self.source = source
+
+    def __str__(self):
+        message  = "Something doesn't add up: (Stop - Start) + 1 != Length\n"
+        message += "  (({0} - {1}) + 1) != {2} in\n"
+        message += "  '{3}'"
+        return message.format(self.stop, self.start, self.length, self.source)
+
 recordOut = {}
 
 
 class Field:
 
     def __init__(self, specs):
-        length, start, stop, reqd, type1, type2, x, order = specs.split(",")
-        self.length = int(length)
-        self.start  = int(start) - 1
-        self.stop   = int(stop)
-        self.order  = int(order)
-        self.x      = x
-        self.reqd   = reqd
-        if type1 == "N":                       # Set output format string
+        length, start, stop, reqd, type1, type2, cell, order = specs.split(",")
+        self.length = int(length)     # Field length
+        self.start  = int(start) - 1  # Starting column
+        self.stop   = int(stop)       # Ending column
+        self.order  = int(order)      # Order w/i fixed width record
+        self.cell   = cell            # Spreadsheet cell
+        self.reqd   = reqd            # Required, Optional, Conditional(?)
+        if (self.stop - self.start) != self.length:
+            raise SizeError(stop, start, length, specs)
+        if type1 == "N":                      # Data type is Numeric
             self.type = "int"
-            self.fmt = "{0}d".format(length)
-        elif type1 == "AN" or type1 == "A":
+            self.fmt = "{0}d".format(length)  # Set output format string
+        elif type1 == "AN" or type1 == "A":   # Data type is alpha-numeric
             self.type = "str"
-            self.fmt = "{0}s".format(length)
-        else:
-            raise Typo(type1, specs)
-        self.value = None
+            self.fmt = "{0}s".format(length)  # Set output format string
+        else:                                 # Data type is WACKY
+            raise TypoError(type1, specs)
+        self.value = None                     # Initialize to no value
 
     def getval(self, recordIn):
         soup = recordIn[self.start:self.stop]  # Primordial soup
