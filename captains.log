@@ -89,3 +89,50 @@
   itself?  I would probably make every field an object, not a method, and
   it would look something like this tester.py
   ____________________________________________________________________________
+
+2015.12.28 KJC
+
+  Fixed tester.py a bit more, though Degree_Concentration remains broken
+  (and commented out).  It's not just the problem that the definition
+  does not exist in the PDF.  The definition provided in the code is
+  is IN ERROR. YOU, not the data provider introduced a typo. While it
+  they take some blame for not giving you a complete spec, you have
+  compounded the problem on your own.
+
+    #Degree_Concentration = Field("9,1,87,87,R,A,I,9")
+
+  I believe the 9 at the beginning is bogus.  Otherwise, YOUR definition
+  above states:
+  
+           9 = length
+           1 = starting position
+          87 = ending position   (in which case length should be 87)
+   ****   87 = required          ****  WTF? ****
+           R = type (type 1?)
+           A = type (type 2?)
+           I = cell
+           9 = order / position
+
+  Removing the initial "9," and inserting a second "A," gives:
+
+           1 = length
+          87 = starting position
+          87 = ending position    (much better: length is 1, as stated)
+           R = required
+           A = type (type 1?)
+    ****   A = type (type 2?)     **** Add me ***
+           I = cell
+           9 = order / position
+
+  For one of the additions to tester, see the links below for an
+  explanation of the difference between __str__ and __repr__ in
+  Python. (Beware the word-wrapping / escaped newline in the URL
+  below.)
+
+    http://pythoncentral.io/\
+    what-is-the-difference-between-__str__-and-__repr__-in-python/
+
+    http://stackoverflow.com/questions/1436703/\
+    difference-between-str-and-repr-in-python#2626364
+  ____________________________________________________________________________
+
